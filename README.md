@@ -2,6 +2,19 @@
 
 We're updating the first million selling computer book, [BASIC Computer Games](https://en.wikipedia.org/wiki/BASIC_Computer_Games), for 2021!
 
+### What's in this fork?
+
+This fork includes ports to [OpenVMS BASIC](https://en.wikipedia.org/wiki/VSI_BASIC_for_OpenVMS) in the `vms` subdirectory for each game. They've been tested on a Compaq XP1000 with VSI BASIC V1.8-005 on OpenVMS V8.4-2L1, but should also run on VAX and Itanium. They may even run on BASIC-PLUS for the PDP-11 with minimal changes (I've used a few features like `EDIT$` that pre-VMS DEC BASIC may not support).
+
+Major changes from Vintage Basic to OpenVMS BASIC:
+- Use `\` instead of `:` to separate multiple statements on a line.
+- `RIGHT$()` takes the start position as the second argument, not the number of characters to extract.
+- Use `EDIT$(str,32)` to convert user input to uppercase, so that caps lock isn't required to play.
+- `INPUT` can only have a string constant, not a dynamic string containing variables.
+- `GOTO` into a block gives a compiler warning, so I've changed those cases to use `GOSUB`.
+- `FOR/NEXT` and other blocks must be properly nested, so you can't call `NEXT I` from within an `IF` block.
+- Use `RND` instead of `RND(1)`, and call `RANDOMIZE` at program start to seed the random number generator.
+
 ### Where can we discuss it?
 
 Please see [the discussion here](https://discourse.codinghorror.com/t/updating-101-basic-computer-games-for-2021/7927) for a worklog and conversation around this project.

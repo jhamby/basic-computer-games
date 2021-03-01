@@ -18,6 +18,8 @@ Major changes from Vintage Basic to OpenVMS BASIC:
 - Use `RND` instead of `RND(1)`, and call `RANDOMIZE` at program start to seed the random number generator.
 - Unreachable code flagged by the compiler has been removed.
 - Some variables and arrays are declared `INTEGER` for performance or correct math. The scoring in Basketball was giving points to the opposing team because of an array subscript of `1-P`, which was fixed by `DECLARE INTEGER P`. This may be a quirk of VAX single-precision FP math on Alpha.
+- The `DECIMAL(d,s)` packed decimal format (d digits, with a scale of s) is useful for games involving money, as you can round to the nearest cent with a scale of 2 and not have to worry about rounding errors giving the player strange balances, like `.152588E-04` dollars.
+- Add `OPTION TYPE=EXPLICIT` to require all variables to be declared before use.
 - There can only be one `END` on the last lexical line of the program. Replace other `END` statements with a `GOTO 999` to go to the end line.
 - The `STOP` statement prints a `#` debug prompt where you can only type `CONTINUE` or `EXIT`, which is confusing, so replace with a goto to the `END` line.
 - `ON n GOTO` and `ON n GOSUB` require an `OTHERWISE target` if the value of n may be less than 1 or greater than the number of targets on the line. In that case, without `OTHERWISE`, an error exception is thrown instead of falling through to the next line of code.

@@ -8,12 +8,18 @@ This fork includes ports to [OpenVMS BASIC](https://en.wikipedia.org/wiki/VSI_BA
 
 Major changes from Vintage Basic to OpenVMS BASIC:
 - Use `\` instead of `:` to separate multiple statements on a line.
+- Use `CR` and `LF` for extra carriage returns and newlines instead of multiple `PRINT` statements.
 - `RIGHT$()` takes the start position as the second argument, not the number of characters to extract.
 - Use `EDIT$(str,32)` to convert user input to uppercase, so that caps lock isn't required to play.
 - `INPUT` can only have a string constant, not a dynamic string containing variables.
 - `GOTO` into a block gives a compiler warning, so I've changed those cases to use `GOSUB`.
 - `FOR/NEXT` and other blocks must be properly nested, so you can't call `NEXT I` from within an `IF` block.
 - Use `RND` instead of `RND(1)`, and call `RANDOMIZE` at program start to seed the random number generator.
+- Unreachable code flagged by the compiler has been removed.
+- Some variables and arrays are declared `INTEGER` for performance or correct math. The scoring in Basketball was giving points to the opposing team because of an array subscript of `1-P`, which was fixed by `DECLARE INTEGER P`. This may be a quirk of VAX single-precision FP math on Alpha.
+- There can only be one `END` on the last lexical line of the program. Replace other `END` statements with a `GOTO 999` to go to the end line.
+- The `STOP` statement prints a `#` debug prompt where you can only type `CONTINUE` or `EXIT`, which is confusing, so replace with a goto to the `END` line.
+- `ON n GOTO` and `ON n GOSUB` require an `OTHERWISE target` if the value of n may be less than 1 or greater than the number of targets on the line. In that case, without `OTHERWISE`, an error exception is thrown instead of falling through to the next line of code.
 
 ### Where can we discuss it?
 
